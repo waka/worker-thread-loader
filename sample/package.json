@@ -1,0 +1,19 @@
+{
+  "name": "worker-thread-loader-sample",
+  "version": "1.0.0",
+  "description": "worker-thread-loader sample",
+  "author": "yo_waka",
+  "license": "MIT",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "node --experimental-worker ./node_modules/.bin/webpack --mode production"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "babel-loader": "^8.0.4",
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.2.0"
+  }
+}
