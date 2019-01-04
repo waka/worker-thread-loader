@@ -1,7 +1,7 @@
 import { Worker } from 'worker_threads';
 import { WorkType, WorkResultType, WorkerStatus } from './constants';
 
-const workerPath = require.resolve('./worker');
+const WorkerPath = require.resolve('./worker');
 
 export default class Thread {
   constructor() {
@@ -16,7 +16,7 @@ export default class Thread {
     }
 
     this.status = WorkerStatus.SPAWNING;
-    this.worker = new Worker(workerPath);
+    this.worker = new Worker(WorkerPath);
 
     this.worker.once('online', () => {
       this.worker.removeAllListeners();

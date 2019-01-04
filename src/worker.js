@@ -4,7 +4,10 @@ import loaderRunner from 'loader-runner';
 import { WorkType, WorkResultType } from './constants';
 
 // Override because exception occurs in worker.
-process.umask = () => { return 0o777; };
+process.umask = () => {
+  /* eslint-disable no-magic-numbers */
+  return 0o777;
+};
 
 // Resolve callback map.
 let callbackMap = Object.create(null);

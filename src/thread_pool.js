@@ -3,6 +3,7 @@ import ThreadError from './thread_error';
 import { WorkType, WorkResultType } from './constants';
 
 const DEFAULT_THREADS_COUNT = 10;
+const DEFAULT_TIMEOUT_MILLS = 1000;
 
 // Thread pool object.
 const ThreadPools = Object.create(null);
@@ -14,10 +15,10 @@ class ThreadPool {
     this.tasks = [];
     this.working = {};
     this.threads = [];
+    this.timeout = null;
   }
 
   setup() {
-    console.log(`ThreadPool setup ${this.numberOfThreads} workers.`);
     for (let idx = 0; idx < this.numberOfThreads; idx++) {
       const thread = new Thread(this.options);
       thread.spawn(() => {
@@ -36,6 +37,11 @@ class ThreadPool {
   execute() {
     if (this.tasks.length === 0) {
       return;
+    }
+
+    if (this.timeout) {
+      clearInterval(this.timeout);
+      this.timeout = null;
     }
 
     this.threads
@@ -105,10 +111,21 @@ class ThreadPool {
         sourceMap: data.sourceMap
       }
     });
+
+    this.timeout = setInterval(() => this.dispose(), DEFAULT_TIMEOUT_MILLS);
   }
 
   getAvailableThread() {
     return this.threads.find(thread => thread.isReady());
+  }
+
+  dispose() {
+    if (this.tasks.length > 0 && Object.keys(this.working).length > 0) {
+      return;
+    }
+    clearInterval(this.timeout);
+    this.timeout = null;
+    this.threads.forEach(thread => thread.die());
   }
 
   static getUniqueId() {
