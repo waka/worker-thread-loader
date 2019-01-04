@@ -6,11 +6,14 @@ The loader for webpack, this loader use `worker-threads`.
 
 First, clone and checkout this repository.
 
-You can play sample application.
-
 ```
 $ npm install
 $ npm build
+```
+
+You can play sample application.
+
+```
 $ cd sample
 $ npm install
 $ npm run build
